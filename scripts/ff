@@ -1,0 +1,6 @@
+if [ -z $2 ]
+then
+	echo "error: two arguments required"
+else
+	man $1 | grep -n "   \-$2"
+fi

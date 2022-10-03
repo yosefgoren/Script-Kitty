@@ -1,0 +1,26 @@
+# throw error if there is no file argument:
+if [ -z "$1" ]; then
+	echo "No file argument given"
+	exit 1
+fi
+
+SRC_FILE=$1
+COMPILER="g++"
+TMP="__tmp__.out"
+COMPILE_FLAGS=-std=c++17
+
+# if second argument was given, use it as compiler:
+if [ ! -z "$2" ]; then
+	COMPILER="$2"
+fi
+
+# set all additional arguments as compiler flags:
+for i in "$@"; do
+	if [ "$i" != "$1" ] && [ "$i" != "$2" ]; then
+		COMPILE_FLAGS="$COMPILE_FLAGS $i"
+	fi
+done
+
+$COMPILER $COMPILE_FLAGS $SRC_FILE -o $TMP
+./$TMP
+rm $TMP

@@ -1,0 +1,22 @@
+#make sure there is atleast one argument which will be the script file name
+if [ $# -lt 1 ]; then
+	echo "Usage: $0 <script file>"
+	exit 1
+fi
+SCRIPT_FILE=$1
+SCRIPTS_DIR=~/.scripts
+
+#make sure the script file exists
+if [ ! -f "$SCRIPT_FILE" ]; then
+	echo "Error: $SCRIPT_FILE does not exist"
+	exit 1
+fi
+
+#add script to scripts dir:
+cp "$SCRIPT_FILE" "$SCRIPTS_DIR"
+
+#add execute permissions to script:
+chmod +x "$SCRIPTS_DIR/$SCRIPT_FILE"
+
+#message success:
+echo "Successfully added $SCRIPT_FILE to scripts dir"

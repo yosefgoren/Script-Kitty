@@ -1,0 +1,22 @@
+# make sure there is atleast one parameter:
+if [ $# -lt 1 ]; then
+	echo "Usage: $0 <script name>"
+	exit 1
+fi
+
+SCRIPTS_DIR=~/.scripts
+# prompt to make sure user wants to remove script:
+if [ "$1" != "-y" ]; then
+	echo "This operation will delete the file '$SCRIPTS_DIR/$1'."
+	read -p "Are you sure you want to remove $1? (y/n) " -n 1 -r
+	echo
+	if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+		exit 1
+	fi
+fi
+
+# remove script:
+rm "$SCRIPTS_DIR/$1"
+
+# message success:
+echo "Successfully removed $1 from scripts dir"
