@@ -1,0 +1,4 @@
+git config --global --unset http.https://github.com.proxy
+git config --global --unset http.https://lfs.github.com.proxy
+git config --global --unset http.https://github-cloud.s3.amazonaws.com.proxy
+git config --global --unset http.https://github-cloud.githubusercontent.com.proxy

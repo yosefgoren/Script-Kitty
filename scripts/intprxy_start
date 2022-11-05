@@ -1,0 +1,4 @@
+git config --global --add http.https://github.com.proxy http://proxy1-iil.intel.com:912
+git config --global --add http.https://lfs.github.com.proxy http://proxy1-iil.intel.com:912
+git config --global --add http.https://github-cloud.s3.amazonaws.com.proxy http://proxy1-iil.intel.com:912
+git config --global --add http.https://github-cloud.githubusercontent.com.proxy http://proxy1-iil.intel.com:912
