@@ -1,0 +1,84 @@
+TEMPLATES_HOME=$HOME/.scripts/appdata/template
+
+# print help message function:
+print_help() {
+    echo "Usage: $0 [use|new|del] ..."
+    echo "    use: $0 use <template name> (use an existing template)"
+    echo "    new: $0 new <template name> <template path> (create a new template)"
+    echo "    del: $0 del <template name> (delete an existing template)"
+    echo "    ls: $0 ls (list all templates)"
+    echo "    help: $0 help (print this help message)"
+}
+
+# make sure got atlesat one argument
+if [ $# -lt 1 ]; then
+    print_help
+    exit 1
+fi
+
+# handle 'use' command
+if [ $1 = "use" ]; then
+    # make sure got atlesat two arguments
+    if [ $# -lt 2 ]; then
+        >&2 echo "Error: 'use' command requires at least one additional argument"
+        print_help
+        exit 1
+    fi
+    # check if template exists
+    if [ ! -f $TEMPLATES_HOME/$2 ]; then
+        >&2 echo "Error: template '$2' does not exist"
+        print_help
+        exit 1
+    fi
+    # copy template to current directory
+    cp -r $TEMPLATES_HOME/$2 .
+    exit 0
+elif [ $1 = "new" ]; then # handle 'new' command
+    # make sure got atlesat three arguments
+    if [ $# -lt 3 ]; then
+        >&2 echo "Error: 'new' command requires at least two additional arguments"
+        print_help
+        exit 1
+    fi
+    # check if template already exists
+    if [ -f $TEMPLATES_HOME/$2 ]; then
+        >&2 echo "Error: template '$2' already exists"
+        print_help
+        exit 1
+    fi
+    #check if template source exists
+    if [ ! -f $3 ]; then
+        >&2 echo "Error: template source '$3' does not exist"
+        print_help
+        exit 1
+    fi
+    # copy current directory to templates
+    cp -r $3 $TEMPLATES_HOME/$2
+    exit 0
+elif  [ $1 = "del" ]; then # handle 'del' command
+    # make sure got atlesat two arguments
+    if [ $# -lt 2 ]; then
+        >&2 echo "Error: 'del' command requires at least one additional argument"
+        print_help
+        exit 1
+    fi
+    # check if template exists
+    if [ ! -f $TEMPLATES_HOME/$2 ]; then
+        >&2 echo "Error: template '$2' does not exist"
+        print_help
+        exit 1
+    fi
+    # remove template
+    rm -rf $TEMPLATES_HOME/$2
+    exit 0
+elif [ $1 = "ls" ]; then # handle 'ls' command
+    ls $TEMPLATES_HOME
+    exit 0
+elif [ $1 = "help" ]; then # handle 'help' command
+    print_help
+    exit 0
+else # handle invalid command
+    >&2 echo "Error: invalid command '$1'"
+    print_help
+    exit 1
+fi

@@ -31,6 +31,9 @@ cp "$SCRIPTS_ORIGIN"/* "$SCRIPTS_DIR"
 # re-run bashrc:
 source "$BASHRC_FILE"
 
+# copy scripts appdata to .scripts dir:
+cp -r ./appdata "$SCRIPTS_DIR"
+
 # print success message:
 echo "Successfully installed script_kitty!"
 
