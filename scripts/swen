@@ -1,0 +1,12 @@
+stty -echoctl
+newline_exit() {
+	printf "\n"
+	exit
+}
+trap newline_exit SIGINT
+
+while [ 1 ]; do
+	OUT=$(squeue $@ | tail -n 1)
+	printf "\r%s" "$OUT"
+	sleep 1
+done
