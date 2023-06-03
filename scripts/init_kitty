@@ -31,26 +31,18 @@ cp "$SCRIPTS_ORIGIN"/* "$SCRIPTS_DIR"
 # mkdir -p "$COMPLETIONS_DIR"
 cp -r $COMPLETIONS_SRC_DIR $COMPLETIONS_DST_DIR
 
-# re-run bashrc:
-source "$BASHRC_FILE"
-
-#TODO: check if move this up? ^^^
-
 # copy scripts appdata to .scripts dir:
 cp -r ./appdata "$SCRIPTS_DIR"
-
 
 # Remove old kitty section if it already exists:
 if grep -q "$BASHRC_MAGIC" "$BASHRC_FILE"; then
 	sed -i "/$BASHRC_MAGIC/,/$BASHRC_MAGIC/d" "$BASHRC_FILE"
 fi
-
 # add new kitty section:
 echo "$BASHRC_MAGIC" >> "$BASHRC_FILE"
 echo "# This section is managed by script_kitty:" >> "$BASHRC_FILE"
 #managing path variable:
 echo "export PATH=\"$SCRIPTS_DIR:\$PATH\"" >> "$BASHRC_FILE"
-
 #adding script completions:
 #for each file in the format $SCRIPTS_ORIGIN/completions/comp_<script_name>.sh, check there is <script_name> file in $SCRIPTS_ORIGIN, and if so, add the line:
 #source $SCRIPTS_ORIGIN/completions/comp_<script_name>.sh && complete -F _comp_<script_name> <script_name>
@@ -62,9 +54,9 @@ for file_name in $(list_files "$COMPLETIONS_DST_DIR"); do
   script_name="${function_name#comp_}"
 	echo "source $COMPLETIONS_DST_DIR/$file_name && complete -F _$function_name $script_name" >> "$BASHRC_FILE"
 done
-
 echo "$BASHRC_MAGIC" >> "$BASHRC_FILE"
-
+# re-run bashrc:
+source "$BASHRC_FILE"
 
 # print success message:
 echo "Successfully installed script_kitty!"
